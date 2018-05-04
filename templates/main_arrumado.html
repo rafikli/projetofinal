@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap eCommerce Page Template</title>
+    <title>Automation - index</title>
     <!-- Bootstrap -->
     <link href="/static/styles/style.css" type="text/css" rel="stylesheet">
   </head>
@@ -54,7 +54,7 @@
             </ol>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img class="d-block w-100" src="START UP-CRUDE.jpg" alt="First slide">
+                <img class="d-block w-100" src="/static/images/logo_crude.jpg" alt="First slide">
                 <div class="carousel-caption d-none d-md-block">
                 </div>
               </div>
@@ -93,7 +93,7 @@
       <div class="row text-center">
         <div class="col-md-4 pb-1 pb-md-0">
           <div class="card">
-            <img class="card-img-top" src="../Documents/images/400X200.gif" alt="Card image cap">
+            <img class="card-img-top" src="/static/images/luz.jpg" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Luz</h5>
       {% if pins[23].state == true %}
@@ -106,19 +106,27 @@
         </div>
         <div class="col-md-4 pb-1 pb-md-0">
           <div class="card">
-            <img class="card-img-top" src="../Documents/images/400X200.gif" alt="Card image cap">
+            <img class="card-img-top" src="/static/images/luz.jpg" alt="Card image cap">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-<a href="#" class="btn btn-primary">Add to Cart</a>
+              <h5 class="card-title">Luz quarto</h5>
+	  {% if pins[24].state == true %}
+      <a href="/24/off" class="button">Desligar</a>
+      {% else %}
+      <a href="/24/on" class="button2">Ligar</a>  
+      {% endif %}
             </div>
           </div>
         </div>
         <div class="col-md-4 pb-1 pb-md-0">
           <div class="card">
-            <img class="card-img-top" src="../Documents/images/400X200.gif" alt="Card image cap">
+            <img class="card-img-top" src="/static/images/vent.jpg" alt="Card image cap">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-<a href="#" class="btn btn-primary">Add to Cart</a>
+              <h5 class="card-title">Ventilador</h5>
+	  {% if pins[23].state == true %}
+      <a href="/21/off" class="button">Desligar</a>
+      {% else %}
+      <a href="/21/on" class="button2">Ligar</a>  
+      {% endif %}
             </div>
           </div>
         </div>
