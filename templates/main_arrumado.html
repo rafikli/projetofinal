@@ -136,9 +136,9 @@
 <h2 class="text-center">SENSORES</h2>
 <hr>
 <hr>
-{% if len(temps) == 1 %}
-<h3>temps[0]</h3>
-{% endif %}
+{% for graus in temps %}
+<h3>{{ temps[graus] }}</h3>
+{% endfor %}
 		
 <hr>
     <div class="container text-white bg-dark p-4">

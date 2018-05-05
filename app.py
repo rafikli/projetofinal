@@ -10,7 +10,7 @@ Complete project details: http://randomnerdtutorials.com
 import RPi.GPIO as GPIO
 from flask import Flask, render_template, request
 app = Flask(__name__)
-import sensor_temperatura.py
+import sensor_temperatura
 
 GPIO.setmode(GPIO.BCM)
 
@@ -29,7 +29,7 @@ for pin in pins:
    GPIO.output(pin, GPIO.LOW)
    
 #Loop para registro de temperatura
-temps = calcula_temp()
+temps = sensor_temperatura.calcula_temp()
 
 
 @app.route("/")
@@ -73,7 +73,7 @@ def action(changePin, action):
    return render_template('main_arrumado.html', **templateData)
 
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port=80, debug=True)
+   app.run(host='0.0.0.0', port=5000, debug=True)
 
 
 

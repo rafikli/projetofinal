@@ -5,7 +5,7 @@ import time
  
 sensor = Adafruit_DHT.DHT22
  
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
  
 pino_sensor = 21
  
@@ -24,10 +24,11 @@ pino_sensor = 21
 def calcula_temp():
 	umid, temp = Adafruit_DHT.read_retry(sensor, pino_sensor)
 	if umid is not None and temp is not None:
-		temps = []
-    	t = "{0:.2f}".format(temp)
-    	t = float(t)
-    	temps.append(t)
-    	return temps
-    else:
-    	return None
+		temps = {}
+		temps["temperatura"]= 0
+		t = "{0:.2f}".format(temp)
+		t = float(t)
+		temps["temperatura"] = t
+		return temps
+	else:
+		return None
