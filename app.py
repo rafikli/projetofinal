@@ -10,10 +10,12 @@ Complete project details: http://randomnerdtutorials.com
 import RPi.GPIO as GPIO
 from flask import Flask, render_template, request
 app = Flask(__name__)
+import sensor_temperatura.py
 
 GPIO.setmode(GPIO.BCM)
 
-# Create a dictionary called pins to store the pin number, name, and pin state:
+#Definindo pinos led/refrigeracao
+
 pins = {
    23 : {'name' : 'Luz Sala', 'state' : GPIO.LOW},
    24 : {'name' : 'Porta', 'state' : GPIO.LOW},
@@ -21,10 +23,14 @@ pins = {
    26 : {'name' : 'Luz Quarto', 'state' : GPIO.LOW}
    }
 
-# Set each pin as an output and make it low:
+
 for pin in pins:
    GPIO.setup(pin, GPIO.OUT)
    GPIO.output(pin, GPIO.LOW)
+   
+#Loop para registro de temperatura
+temperatura = calcula_temp()
+
 
 @app.route("/")
 def main():
