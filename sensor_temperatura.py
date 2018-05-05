@@ -24,8 +24,10 @@ pino_sensor = 21
 def calcula_temp():
 	umid, temp = Adafruit_DHT.read_retry(sensor, pino_sensor)
 	if umid is not None and temp is not None:
+		temps = []
     	t = "{0:.2f}".format(temp)
     	t = float(t)
-    	return t
+    	temps.append(t)
+    	return temps
     else:
     	return None

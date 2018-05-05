@@ -29,7 +29,7 @@ for pin in pins:
    GPIO.output(pin, GPIO.LOW)
    
 #Loop para registro de temperatura
-temperatura = calcula_temp()
+temps = calcula_temp()
 
 
 @app.route("/")
