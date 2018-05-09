@@ -1,18 +1,75 @@
-'''
-
-Adapted excerpt from Getting Started with Raspberry Pi by Matt Richardson
-
-Modified by Rui Santos
-Complete project details: http://randomnerdtutorials.com
-
-'''
-
 import RPi.GPIO as GPIO
-from flask import Flask, render_template, request
+import time
+import json
+import datetime
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+import io
+from flask import Flask, render_template, send_file, make_response, request
+
 app = Flask(__name__)
-import sensor_temperatura
 
 GPIO.setmode(GPIO.BCM)
+
+#FUNCOES
+def dia():
+	geral = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
+	geral_separado = geral.split("-")
+	hoje = "{}/{}".format(geral_separado[2],geral_separado[1])
+	return hoje
+	
+
+def obter_dados ():
+	arquivo_in = open("coletas.json", "r")
+	leitura = arquivo_in.read()
+	dados = json.loads(leitura)
+	hoje = dia()
+	dado = dados[hoje]
+	arquivo_in.close()
+	
+	hora = dado["hora"][-1]
+	temp = dado["tempe"][-1]
+	umid = dado["umidade"][-1]
+	return hora, temp, umid
+	
+def historico_dados():
+	arquivo_in = open("coletas.json", "r")
+	leitura = arquivo_in.read()
+	dados = json.loads(leitura)
+	hoje = dia()
+	dado = dados[hoje]
+	tempos = dado["hora"]
+	temps = dado["tempe"]
+	umids = dado["umidade"]
+
+	return tempos, temps, umids
+		
+def max_linhas():
+	hoje = dia()
+	dado = dados[hoje]
+	num_max = len(dado["hora"])
+	return num_max
+	
+#def freq_coleta():
+#	tempos, temps, umids = historico_dados(2)
+#	fmt = '%Y-%m-%d %H:%M:%S'
+#	tstamp0 = datetime.strptime(tempos[0], fmt)
+#	tstamp1 = datetime.strptime(tempos[1], fmt)
+#	freq = tstamp1 - tstamp0
+#	freq = int(round(freq.total_seconds()/60))
+#	return freq
+
+#global numcoletas	
+#numcoletas = max_linhas()
+#if numcoletas > 101:
+#	numcoletas = 100
+
+#global freqcoletas
+#freqcoletas = freq_coleta()
+
+#global atu_tempo
+#atu_tempo = 100
+
 
 #Definindo pinos led/refrigeracao
 
@@ -28,52 +85,160 @@ for pin in pins:
    GPIO.setup(pin, GPIO.OUT)
    GPIO.output(pin, GPIO.LOW)
    
-#Loop para registro de temperatura
-temps = sensor_temperatura.calcula_temp()
-
-
+global temp_max
+temp_max = 100
+   
 @app.route("/")
 def main():
-   # For each pin, read the pin state and store it in the pins dictionary:
-   for pin in pins:
-      pins[pin]['state'] = GPIO.input(pin)
-   # Put the pin dictionary into the template data dictionary:
-   templateData = {
-      'pins' : pins
-      }
-   # Pass the template data into the template main.html and return it to the user
-   return render_template('main_arrumado.html', **templateData)
+	tempo, temperatura, umidade = obter_dados()
+	for pin in pins:
+		pins[pin]['state'] = GPIO.input(pin)
+		templateData = {
+			'pins' : pins,
+			"tempo": tempo,
+			"Temperatura": temperatura,
+			"Umid": umidade,
+			"temp_max" : temp_max,
+#			"numcoletas": numcoletas,
+#			"freq": freqcoletas,
+#			"atu_tempo": atu_tempo,
+			}
 
-# The function below is executed when someone requests a URL with the pin number and action in it:
+	return render_template('main_arrumado.html', **templateData)
+	
+
 @app.route("/<changePin>/<action>")
 def action(changePin, action):
-   # Convert the pin from the URL into an integer:
-   changePin = int(changePin)
-   # Get the device name for the pin being changed:
-   deviceName = pins[changePin]['name']
-   # If the action part of the URL is "on," execute the code indented below:
-   if action == "on":
-      # Set the pin high:
-      GPIO.output(changePin, GPIO.HIGH)
-      # Save the status message to be passed into the template:
-      message = "Turned " + deviceName + " on."
-   if action == "off":
-      GPIO.output(changePin, GPIO.LOW)
-      message = "Turned " + deviceName + " off."
+	
+	tempo, temperatura, umidade = obter_dados()
 
-   # For each pin, read the pin state and store it in the pins dictionary:
-   for pin in pins:
-      pins[pin]['state'] = GPIO.input(pin)
+	changePin = int(changePin)
 
-   # Along with the pin dictionary, put the message into the template data dictionary:
-   templateData = {
-      'pins' : pins
-   }
+	deviceName = pins[changePin]['name']
 
-   return render_template('main_arrumado.html', **templateData)
+	if action == "on":
+
+		GPIO.output(changePin, GPIO.HIGH)
+
+		message = "Turned " + deviceName + " on."
+	if action == "off":
+		GPIO.output(changePin, GPIO.LOW)
+		message = "Turned " + deviceName + " off."
+
+	for pin in pins:
+		pins[pin]['state'] = GPIO.input(pin)
+
+
+		templateData = {
+		  'pins' : pins,
+		  "tempo": tempo,
+		  "Temperatura": temperatura,
+		  "Umid": umidade,
+		  "temp_max" : temp_max,
+		}
+
+	return render_template('main_arrumado.html', **templateData)
+   
+  
+  
+#SENSOR TEMPERATURA
+
+@app.route("/sensores", methods = ['POST'])
+def controle_temp():
+	
+	tempo, temperatura, umidade = obter_dados()
+	
+	global temp_max
+	
+	temp_max = int(request.form['temp_max'])
+	
+	arquivo_in = open("temp_max.json", "r")
+	arquivo_out = open("temp_max.json", "w")
+	leitura = arquivo_in.read()
+	if len (leitura) == 0:
+		dados = {}
+	else:
+		dados = json.loads(leitura)
+	if "temp_max" not in dados:
+		dados["temp_max"] = 0
+		dados["temp_max"] = temp_max
+	else:
+		dados["temp_max"] = temp_max
+	arquivo_out.write(json.dumps(dados))
+	arquivo_out.close()
+	arquivo_in.close()
+	
+	for pin in pins:
+		pins[pin]['state'] = GPIO.input(pin)
+
+
+		templateData = {
+		  'pins' : pins,
+		  "tempo": tempo,
+		  "Temperatura": temperatura,
+		  "Umid": umidade,
+		  "temp_max" : temp_max,
+		}
+
+	return render_template('sensores.html', **templateData)
+	
+@app.route("/sensores")
+def sensores():	
+	
+	tempo, temperatura, umidade = obter_dados()
+	
+
+
+	templateData = {
+	  "tempo": tempo,
+	  "Temperatura": temperatura,
+	  "Umid": umidade,
+	  "temp_max" : temp_max,
+	}
+
+	return render_template('sensores.html',  **templateData)
+
+
+@app.route('/sensores/plot/temp')
+def plot_temp():
+	tempos, temps, umids = historico_dados()
+	ys = temps
+	fig = Figure()
+	axis = fig.add_subplot(1,1,1)
+	axis.set_title("Temperatura *C")
+	axis.set_xlabel("Coletas")
+	axis.grid(True)
+	xs = range(len(temps))
+	axis.plot(xs, ys)
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
+	
+@app.route('/sensores/plot/umid')
+def plot_umid():
+	tempos, temps, umids = historico_dados()
+	ys = umids
+	fig = Figure()
+	axis = fig.add_subplot(1,1,1)
+	axis.set_title("Umidade [%]")
+	axis.set_xlabel("Coletas")
+	axis.grid(True)
+	xs = range(len(umids))
+	axis.plot(xs, ys)
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response	
+
+
 
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port=5000, debug=True)
+   app.run(host='0.0.0.0', port=5004, debug=True)
 
 
 
