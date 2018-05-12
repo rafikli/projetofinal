@@ -5,6 +5,10 @@ import datetime
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import io
+import picamera 
+import cv2
+import socket 
+import io 
 from flask import Flask, render_template, send_file, make_response, request
 
 app = Flask(__name__)
@@ -253,6 +257,21 @@ def plot_umid():
 	return response	
 
 
+vc = cv2.VideoCapture(0) 
+@app.route('/') 
+def camera(): 
+   return render_template('camera.html') 
+def gen(): 
+   while True: 
+       rval, frame = vc.read() 
+       cv2.imwrite('pic.jpg', frame) 
+       yield (b'--frame\r\n' 
+              b'Content-Type: image/jpeg\r\n\r\n' + open('pic.jpg', 'rb').read() + b'\r\n') 
+@app.route('/video_feed') 
+def video_feed(): 
+
+   return Response(gen(), 
+                   mimetype='multipart/x-mixed-replace; boundary=frame') 
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=5004, debug=True)
