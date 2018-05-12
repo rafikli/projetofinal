@@ -24,7 +24,7 @@
               <a class="nav-link" href="#">Dispositivos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="sensores">Sensores</a>
+              <a class="nav-link" href="/sensores">Sensores</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
@@ -122,10 +122,10 @@
             <img class="card-img-top" src="/static/images/vent.jpg" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Ventilador</h5>
-	  {% if pins[25].state == true %}
-      <a href="/25/off" class="button">Desligar</a>
+	  {% if pins[12].state == true %}
+      <a href="/12/off" class="button">Desligar</a>
       {% else %}
-      <a href="/25/on" class="button2">Ligar</a>  
+      <a href="/12/on" class="button2">Ligar</a>  
       {% endif %}
             </div>
           </div>

@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 import time
 import json
 import datetime
+from firebase import firebase 
 
 #setando pino ventilador
 pino_vent = 12
@@ -19,6 +20,7 @@ sensor = Adafruit_DHT.DHT22
  
 pino_sensor = 21
 
+#coletando dados anteriores
 
 arquivo_in = open("coletas.json", "r")
 leitura = arquivo_in.read()
@@ -34,6 +36,8 @@ geral = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
 geral_separado = geral.split("-")
 
 hoje = "{}/{}".format(geral_separado[2],geral_separado[1])
+
+#firebase = firebase.FirebaseApplication
 
 
 if hoje in dados:
@@ -55,7 +59,7 @@ def dadosDHT():
 		temp = float(temp)
 		umid = "{0:.1f}".format(umid)
 		umid = float(umid)
-	return temp, umid
+		return temp, umid
 	
 def add_json(temp, umid):
 	arquivo_out = open("coletas.json", "w")
@@ -91,14 +95,17 @@ def le_temp_max():
 def principal():
 	while True:
 		temp, umid = dadosDHT()
-		temp_max = le_temp_max()
-		if temp >= temp_max:
-			GPIO.output(pino_vent, GPIO.HIGH)
-			
+		if umid >600 and temp < 14:
+			print("Falha nesta coleta") 
 		else:
-			GPIO.output(pino_vent, GPIO.LOW)
-			
-		add_json(temp, umid)
-		time.sleep(frequencia)
+			temp_max = le_temp_max()
+			if temp >= temp_max:
+				GPIO.output(pino_vent, GPIO.HIGH)
+				
+			else:
+				GPIO.output(pino_vent, GPIO.LOW)
+				
+			add_json(temp, umid)
+			time.sleep(frequencia)
 	
 principal()

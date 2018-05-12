@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 GPIO.setmode(GPIO.BCM)
 
+
 #FUNCOES
 def dia():
 	geral = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
@@ -18,26 +19,30 @@ def dia():
 	hoje = "{}/{}".format(geral_separado[2],geral_separado[1])
 	return hoje
 	
+global escolhe_dia
+hoje = dia()
+escolhe_dia = hoje   	
 
-def obter_dados ():
+def obter_dados (escolhe_dia):
 	arquivo_in = open("coletas.json", "r")
 	leitura = arquivo_in.read()
 	dados = json.loads(leitura)
-	hoje = dia()
-	dado = dados[hoje]
+#	hoje = dia()
+	dado = dados[escolhe_dia]
 	arquivo_in.close()
 	
+	hora_inicial = dado["hora"][0]
 	hora = dado["hora"][-1]
 	temp = dado["tempe"][-1]
 	umid = dado["umidade"][-1]
-	return hora, temp, umid
+	return hora_inicial, hora, temp, umid
 	
 def historico_dados():
 	arquivo_in = open("coletas.json", "r")
 	leitura = arquivo_in.read()
 	dados = json.loads(leitura)
-	hoje = dia()
-	dado = dados[hoje]
+#	hoje = dia()
+	dado = dados[escolhe_dia]
 	tempos = dado["hora"]
 	temps = dado["tempe"]
 	umids = dado["umidade"]
@@ -77,7 +82,8 @@ pins = {
    23 : {'name' : 'Luz Sala', 'state' : GPIO.LOW},
    24 : {'name' : 'Porta', 'state' : GPIO.LOW},
    25 : {'name' : 'Som', 'state' : GPIO.LOW},
-   26 : {'name' : 'Luz Quarto', 'state' : GPIO.LOW}
+   26 : {'name' : 'Luz Quarto', 'state' : GPIO.LOW},
+   12 : {'name' : 'Ventilador', 'state' : GPIO.LOW}
    }
 
 
@@ -90,18 +96,10 @@ temp_max = 100
    
 @app.route("/")
 def main():
-	tempo, temperatura, umidade = obter_dados()
 	for pin in pins:
 		pins[pin]['state'] = GPIO.input(pin)
 		templateData = {
 			'pins' : pins,
-			"tempo": tempo,
-			"Temperatura": temperatura,
-			"Umid": umidade,
-			"temp_max" : temp_max,
-#			"numcoletas": numcoletas,
-#			"freq": freqcoletas,
-#			"atu_tempo": atu_tempo,
 			}
 
 	return render_template('main_arrumado.html', **templateData)
@@ -110,8 +108,6 @@ def main():
 @app.route("/<changePin>/<action>")
 def action(changePin, action):
 	
-	tempo, temperatura, umidade = obter_dados()
-
 	changePin = int(changePin)
 
 	deviceName = pins[changePin]['name']
@@ -131,69 +127,84 @@ def action(changePin, action):
 
 		templateData = {
 		  'pins' : pins,
-		  "tempo": tempo,
-		  "Temperatura": temperatura,
-		  "Umid": umidade,
-		  "temp_max" : temp_max,
 		}
 
 	return render_template('main_arrumado.html', **templateData)
-   
-  
   
 #SENSOR TEMPERATURA
 
 @app.route("/sensores", methods = ['POST'])
 def controle_temp():
 	
-	tempo, temperatura, umidade = obter_dados()
+	tempo_inicio, tempo, temperatura, umidade = obter_dados(escolhe_dia)
 	
 	global temp_max
 	
-	temp_max = int(request.form['temp_max'])
+	global escolhe_dia
 	
-	arquivo_in = open("temp_max.json", "r")
-	arquivo_out = open("temp_max.json", "w")
-	leitura = arquivo_in.read()
-	if len (leitura) == 0:
-		dados = {}
-	else:
-		dados = json.loads(leitura)
-	if "temp_max" not in dados:
-		dados["temp_max"] = 0
-		dados["temp_max"] = temp_max
-	else:
-		dados["temp_max"] = temp_max
-	arquivo_out.write(json.dumps(dados))
-	arquivo_out.close()
-	arquivo_in.close()
+	if request.method == 'POST':
+		
+		if 'temp_max' in request.form:
 	
-	for pin in pins:
-		pins[pin]['state'] = GPIO.input(pin)
-
-
-		templateData = {
-		  'pins' : pins,
-		  "tempo": tempo,
-		  "Temperatura": temperatura,
-		  "Umid": umidade,
-		  "temp_max" : temp_max,
-		}
-
-	return render_template('sensores.html', **templateData)
-	
-@app.route("/sensores")
-def sensores():	
-	
-	tempo, temperatura, umidade = obter_dados()
-	
-
+			temp_max = float(request.form['temp_max'])
+			
+			arquivo_in = open("temp_max.json", "r")
+			arquivo_out = open("temp_max.json", "w")
+			leitura = arquivo_in.read()
+			if len (leitura) == 0:
+				dados = {}
+			else:
+				dados = json.loads(leitura)
+			if "temp_max" not in dados:
+				dados["temp_max"] = 0
+				dados["temp_max"] = temp_max
+			else:
+				dados["temp_max"] = temp_max
+			arquivo_out.write(json.dumps(dados))
+			arquivo_out.close()
+			arquivo_in.close()
+		
+		else:
+			
+			escolhe_dia = str(request.form["dia_escolhido"])
 
 	templateData = {
+      "tempo_inicio": tempo_inicio,
 	  "tempo": tempo,
 	  "Temperatura": temperatura,
 	  "Umid": umidade,
 	  "temp_max" : temp_max,
+	  "datas":datas,
+	  "escolhe_dia":escolhe_dia,
+	}
+
+	return render_template('sensores.html', **templateData)
+	
+@app.route("/sensores" , methods = ["GET"])
+def sensores():	
+	
+	tempo_inicio, tempo, temperatura, umidade = obter_dados(escolhe_dia)
+	
+	arquivo_in = open("coletas.json", "r")
+	leitura = arquivo_in.read()
+	dados = json.loads(leitura)
+	
+	global datas
+	datas = []
+	
+	for data in dados:
+		datas.append(data)
+	arquivo_in.close()
+
+
+	templateData = {
+      "tempo_inicio": tempo_inicio,
+	  "tempo": tempo,
+	  "Temperatura": temperatura,
+	  "Umid": umidade,
+	  "temp_max" : temp_max,
+	  "datas":datas,
+      "escolhe_dia":escolhe_dia,
 	}
 
 	return render_template('sensores.html',  **templateData)
@@ -205,7 +216,10 @@ def plot_temp():
 	ys = temps
 	fig = Figure()
 	axis = fig.add_subplot(1,1,1)
-	axis.set_title("Temperatura *C")
+	if escolhe_dia == hoje:
+		axis.set_title("Temperatura Atual ({}) [C]".format(hoje))
+	else:
+		axis.set_title("Temperatura ao longo do dia {} [C]".format(escolhe_dia))
 	axis.set_xlabel("Coletas")
 	axis.grid(True)
 	xs = range(len(temps))
@@ -223,7 +237,10 @@ def plot_umid():
 	ys = umids
 	fig = Figure()
 	axis = fig.add_subplot(1,1,1)
-	axis.set_title("Umidade [%]")
+	if escolhe_dia == hoje:
+		axis.set_title("Umidade Atual ({}) [%]".format(hoje))
+	else:
+		axis.set_title("Umidade ao longo do dia {} [%]".format(escolhe_dia))
 	axis.set_xlabel("Coletas")
 	axis.grid(True)
 	xs = range(len(umids))
