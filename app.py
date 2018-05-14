@@ -253,6 +253,14 @@ def plot_umid():
 	return response	
 
 
+@app.route('/comofunciona')
+def comofunciona():
+	return render_template('comofunciona.html')
+
+@app.route('/*/on')
+def camera():
+	return render_template('camera.html')
+
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=5004, debug=True)
