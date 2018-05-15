@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Automation - index</title>
+    <title>CRUDE - Digital</title>
     <!-- Bootstrap -->
     <link href="/static/styles/style.css" type="text/css" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">CRUDE</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -21,10 +21,13 @@
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Dispositivos</a>
+              <a class="nav-link" href="/camera/historico">Segurança</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/sensores">Sensores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/comofunciona">Como funciona?</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
@@ -86,12 +89,14 @@
       </div>
       <hr>
     </div>
+<div>
 <hr>
     <h2 class="text-center">DISPOSITIVOS</h2>
     <hr>
+  </div>
     <div class="container">
       <div class="row text-center">
-        <div class="col-md-4 pb-1 pb-md-0">
+        <div class="col-md-3 pb-1 pb-md-0">
           <div class="card">
             <img class="card-img-top" src="/static/images/luz.jpg" alt="Card image cap">
             <div class="card-body">
@@ -104,7 +109,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 pb-1 pb-md-0">
+        <div class="col-md-3 pb-1 pb-md-0">
           <div class="card">
             <img class="card-img-top" src="/static/images/luz.jpg" alt="Card image cap">
             <div class="card-body">
@@ -117,7 +122,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 pb-1 pb-md-0">
+        <div class="col-md-3 pb-1 pb-md-0">
           <div class="card">
             <img class="card-img-top" src="/static/images/vent.jpg" alt="Card image cap">
             <div class="card-body">
@@ -130,52 +135,55 @@
             </div>
           </div>
         </div>
+          <div class="col-md-3 pb-1 pb-md-0">
+            <div class="card">
+              <img class="card-img-top" src="/static/images/camera.jpg" alt="Card image cap">
+              <div class="card-body">
+               <h5 class="card-title">Segurança</h5>
+    {% if pins[17].state == true %}
+      <a href="/17/off" class="button">Desativar</a>
+      {% else %}
+      <a href="/17/on" class="button2">Ativar</a>  
+      {% endif %}
+            </div>
+          </div>
+        </div>
       </div>
 
 <hr>
-    <div class="container text-white bg-dark p-4">
+    <h2 class="text-center">CONTATOS</h2>
+    <hr>
       <div class="row">
         <div class="col-6 col-md-8 col-lg-7">
           <div class="row text-center">
             <div class="col-sm-6 col-md-4 col-lg-4 col-12">
               <ul class="list-unstyled">
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
+                <a>Pedro Luiz:<li class="btn-link"> <a>Link anchor</a> </li></a>
               </ul>
             </div>
             <div class="col-sm-6 col-md-4 col-lg-4 col-12">
               <ul class="list-unstyled">
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
+                <a>Rafael:<li class="btn-link"> <a>rafael.libertini@gmail.com</a> </li></a>
               </ul>
             </div>
             <div class="col-sm-6 col-md-4 col-lg-4 col-12">
               <ul class="list-unstyled">
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
+                <a>Pedro Paulo:<li class="btn-link"> <a>pedropauloficial@hotmail.com</a> </li></a>
               </ul>
             </div>
           </div>
         </div>
         <div class="col-md-4 col-lg-5 col-6">
           <address>
-            <strong>MyStoreFront, Inc.</strong><br>
-            Indian Treasure Link<br>
-            Quitman, WA, 99110-0219<br>
-            <abbr title="Phone">P:</abbr> (123) 456-7890
+            <strong>CRUDE, Inc.</strong><br>
+            Vila Olímpia, 04546-043<br>
+            Brasil<br>
+            São Paulo-SP<br>
+            <abbr title="Phone">1234-5678</abbr>
           </address>
           <address>
-            <strong>Full Name</strong><br>
-            <a href="mailto:#">first.last@example.com</a>
+            <strong>E-MAIL CRUDE</strong><br>
+            <a href="mailto:#">crude@digital.com.br</a>
           </address>
         </div>
       </div>
@@ -184,7 +192,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <p>Copyright © MyWebsite. All rights reserved.</p>
+            <p>Copyright © CRUDE. All rights reserved.</p>
           </div>
         </div>
       </div>
