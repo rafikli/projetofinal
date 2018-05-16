@@ -289,8 +289,16 @@ def plot_temp():
 	fig.add_subplot(1,1,1)
 	plt.plot(xs,ys)
 	plt.grid(True)
-	horario = [0,(len(temps))/2,len(temps)-1]
-	plt.xticks(horario, [tempos[0], tempos[len(tempos)/2], tempos[-1]], rotation = 45)
+	horario = [0,(len(temps))/6,(len(temps))/3,(len(temps))/2,4*(len(temps))/6, 5*(len(temps))/6,len(temps)-1]
+	plt.xticks(horario, [tempos[0], tempos[len(tempos)/6], tempos[len(tempos)/3], tempos[len(tempos)/2], tempos[4*len(tempos)/6], tempos[5*len(tempos)/6], tempos[-1]], rotation = 45)
+	
+	if escolhe_dia == hojefb:
+		plt.title("Temperatura Atual ({}) [C]".format(hoje))
+	else:
+		plt.title("Temperatura ao longo do dia {} [C]".format(escolhe_dia_site))
+		
+	plt.xlabel('Horario')
+	plt.ylabel('Temperatura [*C]')
 	
 	canvas = FigureCanvas(fig)
 	output = io.BytesIO()
@@ -303,16 +311,33 @@ def plot_temp():
 def plot_umid():
 	tempos, temps, umids = historico_dados_firebase()
 	ys = umids
-	fig = Figure()
-	axis = fig.add_subplot(1,1,1)
-	if escolhe_dia == hojefb:
-		axis.set_title("Umidade Atual ({}) [%]".format(hoje))
-	else:
-		axis.set_title("Umidade ao longo do dia {} [%]".format(escolhe_dia_site))
-	axis.set_xlabel("Coletas")
-	axis.grid(True)
+#	fig = Figure()
+#	axis = fig.add_subplot(1,1,1)
+#	if escolhe_dia == hojefb:
+#		axis.set_title("Umidade Atual ({}) [%]".format(hoje))
+#	else:
+#		axis.set_title("Umidade ao longo do dia {} [%]".format(escolhe_dia_site))
+#	axis.set_xlabel("Coletas")
+#	axis.grid(True)
 	xs = range(len(umids))
-	axis.plot(xs, ys)
+#	axis.plot(xs, ys)
+
+	fig = plt.figure()
+	fig.add_subplot(1,1,1)
+	plt.plot(xs,ys)
+	plt.grid(True)
+	horario = [0,(len(temps))/6,(len(temps))/3,(len(temps))/2,4*(len(temps))/6, 5*(len(temps))/6,len(temps)-1]
+	plt.xticks(horario, [tempos[0], tempos[len(tempos)/6], tempos[len(tempos)/3], tempos[len(tempos)/2], tempos[4*len(tempos)/6], tempos[5*len(tempos)/6], tempos[-1]], rotation = 45)
+	
+	if escolhe_dia == hojefb:
+		plt.title("Umidade Atual ({}) [C]".format(hoje))
+	else:
+		plt.title("Umidade ao longo do dia {} [%]".format(escolhe_dia_site))
+		
+	plt.xlabel('Horario')
+	plt.ylabel('Umidade [%]')
+
+
 	canvas = FigureCanvas(fig)
 	output = io.BytesIO()
 	canvas.print_png(output)
@@ -338,14 +363,6 @@ def historico():
 		'historico' : historico,
 }
 	return render_template("camera_historico.html", **templateData)
-
-@app.route('/comofunciona')
-def comofunciona():
-	return render_template('comofunciona.html')
-
-@app.route('/*/on')
-def camera():
-	return render_template('camera.html')
 
 
 if __name__ == "__main__":
