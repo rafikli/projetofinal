@@ -22,30 +22,10 @@ pino_sensor = 21
 
 #coletando dados anteriores
 
-#arquivo_in = open("coletas.json", "r")
-#leitura = arquivo_in.read()
-
-#if len (leitura) == 0:
-#	dados = {}
-#else:
-#	dados = json.loads(leitura)
-
-#arquivo_in.close()
-
 geral = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
 geral_separado = geral.split("-")
 
 hoje = "{}/{}".format(geral_separado[2],geral_separado[1])
-
-#if hoje in dados:
-#	dado = dados[hoje]
-#else:
-#	dados[hoje] = {}
-#	dado = dados[hoje]
-#	dado["hora"] = []
-#	dado["tempe"] = []
-#	dado["umidade"] = []
-	
 
 #FIREBASE
 
@@ -93,44 +73,12 @@ def le_tmax_firebase():
 	temp_max = tmax['temp_max']
 	return temp_max
 	
-#def add_json(temp, umid):
-#	arquivo_out = open("coletas.json", "w")
-	
-#	geral = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
-#	geral_separado = geral.split("-")
-#	hora = "{}:{}".format(geral_separado[3],geral_separado[4])
-
-#	dado["hora"].append(hora)
-#	dado["tempe"].append(temp)
-#	dado["umidade"].append(umid)
-	
-#	arquivo_out.write(json.dumps(dados))
-#	arquivo_out.close()
-	
-#def le_temp_max():
-#	arquivo_in = open("temp_max.json", "r")
-#	leitura = arquivo_in.read()
-#	if len (leitura) == 0:
-#		dados = {}
-#	else:
-#		dados = json.loads(leitura)
-#	if "temp_max" not in dados:
-#		dados["temp_max"] = 100
-#		temp_max = dados["temp_max"]
-#	else:
-#		temp_max = dados["temp_max"]
-	
-#	arquivo_in.close()
-	
-#	return temp_max
-	
 def principal():
 	while True:
 		temp, umid = dadosDHT()
 		if umid >600 and temp < 14:
 			print("Falha nesta coleta") 
 		else:
-			#temp_max = le_temp_max()
 			temp_max = le_tmax_firebase()
 			if temp >= temp_max:
 				GPIO.output(pino_vent, GPIO.HIGH)
@@ -138,7 +86,6 @@ def principal():
 			else:
 				GPIO.output(pino_vent, GPIO.LOW)
 				
-#			add_json(temp, umid)
 			add_firebase(temp, umid)
 			time.sleep(frequencia)
 	

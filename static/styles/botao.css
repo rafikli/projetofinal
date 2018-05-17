@@ -1,0 +1,60 @@
+/*
+look at the weird glitch on the 6th button. something to do with color vs background-color. or did i fuck up?
+*/
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Helvetica', sans-serif;
+}
+
+/* BUTTON 4 */
+.four .button-wrap {
+  width: 100px;
+  margin: 40px auto 0;
+  cursor: pointer;
+}
+.four .button-bg {
+  width: 100%;
+  height: 100%;
+  background-color: #bb2222;
+  border-radius: 40px;
+  padding: 3px;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+.four .button-switch {
+  position: relative;
+  left: 0px;
+  width: 44px;
+  height: 44px;
+  border: solid 13px;
+  background-color: #fff;
+  border-radius: 36px;
+  transition: all 0.2s ease;
+}
+.four .button-active .button-switch {
+  left: 50px;
+}
+.four .button-in,
+.four .button-out {
+  position: absolute;
+  transition: all 0.2s ease;
+  padding-top: 15px;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.four .button-in {
+  margin-left: 76px;
+}
+.four .button-out {
+  margin-left: 18px;
+}
+.four .button-active .button-bg {
+  background-color: #22bb22;
+}

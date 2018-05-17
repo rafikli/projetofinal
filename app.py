@@ -18,40 +18,6 @@ GPIO.setmode(GPIO.BCM)
 
 
 #FUNCOES
-#def dia():
-#	geral = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
-#	geral_separado = geral.split("-")
-#	hoje = "{}/{}".format(geral_separado[2],geral_separado[1])
-#	return hoje
-	
-#global escolhe_dia
-#hoje = dia()
-#escolhe_dia = hoje   	
-
-#def obter_dados (escolhe_dia):
-#	arquivo_in = open("coletas.json", "r")
-#	leitura = arquivo_in.read()
-#	dados = json.loads(leitura)
-#	dado = dados[escolhe_dia]
-#	arquivo_in.close()
-	
-#	hora_inicial = dado["hora"][0]
-#	hora = dado["hora"][-1]
-#	temp = dado["tempe"][-1]
-#	umid = dado["umidade"][-1]
-#	return hora_inicial, hora, temp, umid
-	
-#def historico_dados():
-#	arquivo_in = open("coletas.json", "r")
-#	leitura = arquivo_in.read()
-#	dados = json.loads(leitura)
-
-#	dado = dados[escolhe_dia]
-#	tempos = dado["hora"]
-#	temps = dado["tempe"]
-#	umids = dado["umidade"]
-
-#	return tempos, temps, umids
 		
 #def max_linhas():
 #	hoje = dia()
@@ -203,22 +169,6 @@ def controle_temp():
 			
 			tempo_inicio, tempo, temperatura, umidade = obter_dados_firebase(escolhe_dia)
 			
-#			arquivo_in = open("temp_max.json", "r")
-#			arquivo_out = open("temp_max.json", "w")
-#			leitura = arquivo_in.read()
-#			if len (leitura) == 0:
-#				dados = {}
-#			else:
-#				dados = json.loads(leitura)
-#			if "temp_max" not in dados:
-#				dados["temp_max"] = 0
-#				dados["temp_max"] = temp_max
-#			else:
-#				dados["temp_max"] = temp_max
-#			arquivo_out.write(json.dumps(dados))
-#			arquivo_out.close()
-#			arquivo_in.close()
-		
 		else:
 			global escolhe_dia_site
 			escolhe_dia_site = str(request.form["dia_escolhido"])
@@ -244,19 +194,6 @@ def sensores():
 	
 	tempo_inicio, tempo, temperatura, umidade = obter_dados_firebase(escolhe_dia)
 	
-	
-#	arquivo_in = open("coletas.json", "r")
-#	leitura = arquivo_in.read()
-#	dados = json.loads(leitura)
-	
-#	global datas
-#	datas = []
-	
-#	for data in dados:
-#		datas.append(data)
-#	arquivo_in.close()
-
-
 	templateData = {
       "tempo_inicio": tempo_inicio,
 	  "tempo": tempo,
@@ -274,20 +211,11 @@ def sensores():
 def plot_temp():
 	tempos, temps, umids = historico_dados_firebase()
 	ys = temps
-#	fig = Figure()
-#	axis = fig.add_subplot(1,1,1)
-#	if escolhe_dia == hojefb:
-#		axis.set_title("Temperatura Atual ({}) [C]".format(hoje))
-#	else:
-#		axis.set_title("Temperatura ao longo do dia {} [C]".format(escolhe_dia_site))
-#	axis.set_xlabel("Coletas")
-#	axis.grid(True)
 	xs = range(len(temps))
-#	axis.plot(xs, ys)
 
 	fig = plt.figure()
 	fig.add_subplot(1,1,1)
-	plt.plot(xs,ys)
+	plt.plot(xs,ys,'r')
 	plt.grid(True)
 	horario = [0,(len(temps))/6,(len(temps))/3,(len(temps))/2,4*(len(temps))/6, 5*(len(temps))/6,len(temps)-1]
 	plt.xticks(horario, [tempos[0], tempos[len(tempos)/6], tempos[len(tempos)/3], tempos[len(tempos)/2], tempos[4*len(tempos)/6], tempos[5*len(tempos)/6], tempos[-1]], rotation = 45)
@@ -311,26 +239,17 @@ def plot_temp():
 def plot_umid():
 	tempos, temps, umids = historico_dados_firebase()
 	ys = umids
-#	fig = Figure()
-#	axis = fig.add_subplot(1,1,1)
-#	if escolhe_dia == hojefb:
-#		axis.set_title("Umidade Atual ({}) [%]".format(hoje))
-#	else:
-#		axis.set_title("Umidade ao longo do dia {} [%]".format(escolhe_dia_site))
-#	axis.set_xlabel("Coletas")
-#	axis.grid(True)
 	xs = range(len(umids))
-#	axis.plot(xs, ys)
 
 	fig = plt.figure()
 	fig.add_subplot(1,1,1)
-	plt.plot(xs,ys)
+	plt.plot(xs,ys, 'b')
 	plt.grid(True)
 	horario = [0,(len(temps))/6,(len(temps))/3,(len(temps))/2,4*(len(temps))/6, 5*(len(temps))/6,len(temps)-1]
 	plt.xticks(horario, [tempos[0], tempos[len(tempos)/6], tempos[len(tempos)/3], tempos[len(tempos)/2], tempos[4*len(tempos)/6], tempos[5*len(tempos)/6], tempos[-1]], rotation = 45)
 	
 	if escolhe_dia == hojefb:
-		plt.title("Umidade Atual ({}) [C]".format(hoje))
+		plt.title("Umidade Atual ({}) [%]".format(hoje))
 	else:
 		plt.title("Umidade ao longo do dia {} [%]".format(escolhe_dia_site))
 		
