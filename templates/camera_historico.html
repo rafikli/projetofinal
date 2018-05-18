@@ -52,9 +52,9 @@
                   <input type = "submit" value = "OK" class = "button-ok"> 
                   </form>
       <h3>{{ historico }}</h3>
-
-      <img src="/static/intrusos/{{ historico }}" alt = "Image Placeholder" width="49%">
-      
+      {% for nome in nomes_foto %}
+      <img src="/static/intrusos/{{ nome }}" alt = "Image Placeholder" width="49%">
+      {% endfor %}
     <script src="/static/styles/jquery-3.2.1.min.js"></script>
     <script src="/static/styles/popper.min.js"></script>
     <script src="/static/styles/bootstrap-4.0.0.js"></script>

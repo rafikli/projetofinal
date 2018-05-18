@@ -364,9 +364,17 @@ def historico():
 	dias_foto = []
 	for dia_foto in historico.keys():
 		dias_foto.append(dia_foto)
+	nomes_foto = []
+	if request.method == "POST:"
+		escolhe_dia_site = str(request.form["dia_foto"])
+	for nome in historico[escolhe_dia_site]:
+		nomes_foto.append(nome)
 
+		
 		templateData = {
 		"dias_foto":dias_foto,
+		"nomes_foto":nomes_foto,
+		"escolhe_dia_site":escolhe_dia_site,
 }
 	return render_template("camera_historico.html", **templateData)
 
