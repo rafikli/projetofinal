@@ -41,41 +41,13 @@
       </div>
     </nav>
 <hr>   
-<h2 class="text-center">Medições ao longo do dia</h2>
+<h2 class="text-center">Mínimas e máximas</h2>
 <hr>
 <hr>
-<div class = "row">
-	<div class = "col-md-6"><h3>Temperatura atual = {{ Temperatura }} °C</h3></div>
-	<div class = "col-md-6"><form action = "/sensores" method = "POST">
-								<label for = "username">Digite a temperatura a ser mantida [°C]:</label>
-								<input name = "temp_max" value = {{ temp_max }} size = "4" maxlength = "3">
-								<input type = "submit" value = "OK" class = "button-ok"> 
-								</form>
-								<form action = "/sensores" method = "POST">
-									<label for = "username">Escolha a data:</label>
-									<select name = "dia_escolhido">
-									{% for dia in datas_crescentes %}
-									<option value = {{ dia }} selected> {{ dia }} </option>
-									{% endfor %}
-									</select>
-									<input type = "submit" value = "OK" class = "button-ok"> 
-									</form></div>
-           
-</div>
-
-<div class = "row">
-	<div class = "col-md-8"><h3>Umidade atual = {{ Umid }} %</h3></div>
-	
-</div>
-
-	<hr>
-	<h3>Primeira leitura do dia {{ escolhe_dia_site }}: {{ tempo_inicio }} </h3>
-	<h3>Ultima leitura do dia {{ escolhe_dia_site }}: {{ tempo }} -> <a href='/sensores' >Atualizar</a></h3>
-
 
 							
-	<img src="/sensores/plot/temp" alt = "Image Placeholder" width="49%">
-	<img src="/sensores/plot/umid" alt = "Image Placeholder" width="49%">
+	<img src="/minimas_maximas/plot/tempminmax" alt = "Image Placeholder" width="49%">
+	<img src="/minimas_maximas/plot/umidminmax" alt = "Image Placeholder" width="49%">
 	<hr>
 		    
 

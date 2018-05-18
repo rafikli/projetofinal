@@ -86,12 +86,22 @@ def historico_dados_firebase():
 tudo = firebase.get('', None)
 global datas
 datas = []
+global datas1 
+datas1 = []
+global datas_crescentes 
+datas_crescentes = []
+
 for data in tudo:
 	if len(data) > 4:
 		print('data invalida')
 	else:
-		data = data[:2] + '/' + data[2:]
 		datas.append(data)
+
+datas1 = sorted(datas, key=str)
+		
+for data in datas1:
+	data = data[:2] + '/' + data[2:]
+	datas_crescentes.append(data)
 
 
 #Definindo pinos led/refrigeracao
@@ -182,7 +192,7 @@ def controle_temp():
 	  "Temperatura": temperatura,
 	  "Umid": umidade,
 	  "temp_max" : temp_max,
-	  "datas":datas,
+	  "datas_crescentes":datas_crescentes,
 	  "escolhe_dia_site":escolhe_dia_site,
 	}
 
@@ -200,7 +210,7 @@ def sensores():
 	  "Temperatura": temperatura,
 	  "Umid": umidade,
 	  "temp_max" : temp_max,
-	  "datas":datas,
+	 "datas_crescentes":datas_crescentes,
       "escolhe_dia_site":escolhe_dia_site,
 	}
 
@@ -264,6 +274,82 @@ def plot_umid():
 	response.mimetype = 'image/png'
 	return response
 	
+@app.route('/minimas_maximas')
+def minimas_maximas():
+	
+	templateData = {
+	 "datas_crescentes":datas_crescentes,
+	}
+	
+	return render_template('minimas_maximas.html',  **templateData)
+	
+@app.route('/minimas_maximas/plot/tempminmax')
+def plot_tempminmax():
+	tmin = []
+	tmax = []
+
+	
+	tudo = firebase.get('', None)
+	
+	for dia in datas1:
+		tmin.append(min(tudo[dia]['tempe']))
+		tmax.append(max(tudo[dia]['tempe']))
+			
+	fig = plt.figure()
+	fig.add_subplot(1,1,1)
+	plt.plot(range(len(datas)),tmax, 'ro--', label = 'Temperatura Maxima')
+	plt.plot(range(len(datas)),tmin, 'bo--', label = 'Temperatura Minima')
+	plt.legend()
+	plt.grid(True)
+	plt.xticks(range(len(datas_crescentes)), datas_crescentes, rotation = 45)
+	
+		
+	plt.xlabel('Data')
+	plt.ylabel('Temperatura [*C]')
+
+
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
+	
+@app.route('/minimas_maximas/plot/umidminmax')
+def plot_umidminmax():
+	umin = []
+	umax = []
+
+	
+	tudo = firebase.get('', None)
+	
+	
+	
+	for dia in datas1[-7:]:
+
+		umin.append(min(tudo[dia]['umidade']))
+		umax.append(max(tudo[dia]['umidade']))
+			
+	fig = plt.figure()
+	fig.add_subplot(1,1,1)
+	plt.plot(range(len(umin)),umax, 'ro--', label = 'Umidade Maxima')
+	plt.plot(range(len(umin)),umin, 'bo--', label = 'Umidade Minima')
+	plt.legend()
+	plt.axis([-0.3,len(umin)-0.5,20,100])
+	plt.grid(True)
+	plt.xticks(range(len(umin)), datas_crescentes[-7:], rotation = 45)
+	
+		
+	plt.xlabel('Data')
+	plt.ylabel('Umidade [%]')
+
+
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
 
 @app.route('/comofunciona')
 def comofunciona():
