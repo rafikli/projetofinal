@@ -12,17 +12,28 @@ GPIO.setup(17, GPIO.OUT)
 
 camera = PiCamera()
 with open("historico.json","r") as arquivo:
-	historico = arquivo.read
+	leitura = arquivo.read
+	if len(leitura) == 0:
+		historico = {}
+	else:
+		historico = json.loads(leitura)
 while True:
 	if GPIO.input(17) == GPIO.HIGH:
 		i=GPIO.input(13)
 		if i == GPIO.LOW:                 
 			print("Sem intrusos")
 			time.sleep(0.5)
-		elif i == GPIO.HIGH:               
-			data = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
+		elif i == GPIO.HIGH:
+			data = datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S")
+			geral_separado = data.split("-")
+			dia = "{}/{}".format(geral_separado[2],geral_separado[1])
+			data_str = str(data)
+			data_jpg = data_str + ".jpg"
+            if dia not in historico.keys:
+            	historico[dia] = []
+            historico[dia].append[data_jpg]  
 			with open("historico.json","w") as arquivo:
-				arquivo.write("{}.jpg".format(data))
+				arquivo.write(json.dumps(historico))
 			camera.start_preview()
 			time.sleep(2)
 			camera.capture("/home/pi/projetofinal/static/intrusos/{}.jpg".format(data))
