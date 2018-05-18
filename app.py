@@ -359,9 +359,10 @@ def comofunciona():
 @app.route('/camera/historico', methods=['GET', 'POST']) 
 def historico(): 
 	with open("historico.json","r") as arquivo:
-		historico = arquivo.read()
+		leitura = arquivo.read()
+		historico = json.loads(leitura)
 	dias_foto = []
-	for dia_foto in historico:
+	for dia_foto in historico.keys():
 		dias_foto.append(dia_foto)
 
 		templateData = {
