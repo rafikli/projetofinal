@@ -360,8 +360,12 @@ def comofunciona():
 def historico(): 
 	with open("historico.json","r") as arquivo:
 		historico = arquivo.read()
+	dias_foto = []
+	for dia_foto in historico:
+		dias_foto.append(dia_foto)
+
 		templateData = {
-		'historico' : historico,
+		"dias_foto":dias_foto,
 }
 	return render_template("camera_historico.html", **templateData)
 

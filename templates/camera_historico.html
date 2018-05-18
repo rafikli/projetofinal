@@ -42,7 +42,17 @@
     </nav>
 <hr>
       <h2 class="text-center">SEGURANÇA</h2>
+      <form action = "/sensores" method = "POST">
+                  <label for = "username">Escolha a data:</label>
+                  <select name = "dia_foto">
+                  {% for dia in dias_foto %}
+                  <option value = {{ dia }} selected> {{ dia }} </option>
+                  {% endfor %}
+                  </select>
+                  <input type = "submit" value = "OK" class = "button-ok"> 
+                  </form>
       <h3>{{ historico }}</h3>
+
       <img src="/static/intrusos/{{ historico }}" alt = "Image Placeholder" width="49%">
       
     <script src="/static/styles/jquery-3.2.1.min.js"></script>
