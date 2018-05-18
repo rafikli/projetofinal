@@ -3,6 +3,7 @@ from datetime import datetime
 import time
 from picamera import PiCamera
 import datetime
+import json
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -12,7 +13,7 @@ GPIO.setup(17, GPIO.OUT)
 
 camera = PiCamera()
 with open("historico.json","r") as arquivo:
-	leitura = arquivo.read
+	leitura = arquivo.read()
 	if len(leitura) == 0:
 		historico = {}
 	else:
@@ -29,9 +30,9 @@ while True:
 			dia = "{}/{}".format(geral_separado[2],geral_separado[1])
 			data_str = str(data)
 			data_jpg = data_str + ".jpg"
-            if dia not in historico.keys:
-            	historico[dia] = []
-            historico[dia].append[data_jpg]  
+			if dia not in historico.keys():
+				historico[dia] = []
+			historico[dia].append(data_jpg)  
 			with open("historico.json","w") as arquivo:
 				arquivo.write(json.dumps(historico))
 			camera.start_preview()
