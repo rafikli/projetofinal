@@ -5,10 +5,12 @@ from picamera import PiCamera
 import datetime
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(17, GPIO.OUT)
 
 
-#camera = PiCamera()
+camera = PiCamera()
 with open("historico.json","r") as arquivo:
 	historico = arquivo.read
 while True:
@@ -21,9 +23,9 @@ while True:
 			data = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
 			with open("historico.json","w") as arquivo:
 				arquivo.write("{}.jpg".format(data))
-#			camera.start_preview()
+			camera.start_preview()
 			time.sleep(2)
-#			camera.capture("/home/pi/web-server/projetofinal/static/intrusos/{}.jpg".format(data))
+			camera.capture("/home/pi/projetofinal/static/intrusos/{}.jpg".format(data))
 			print("Intruso detectado.Foto tirada {}".format(data))
-#			camera.stop_preview()
+			camera.stop_preview()
 			time.sleep(0.5)

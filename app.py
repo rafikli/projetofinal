@@ -355,10 +355,6 @@ def plot_umidminmax():
 def comofunciona():
 	return render_template('comofunciona.html')
 
-@app.route('/17/on')
-def camera():
-	return render_template('camera.html')	
-	
 
 @app.route('/camera/historico', methods=['GET', 'POST']) 
 def historico(): 
