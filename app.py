@@ -389,16 +389,13 @@ def historico():
 
 
 @app.route('/login')
-def login():
-
-	listaemail = ['pedropauloficial@hotmail.com']
-	listasenha = [1234]
-
-	templateData = {
-	"email": listaemail,
-	"senha": listasenha
-	}
-	return render_template('login.html', **templateData)
+def login(): 
+	
+	if request.method == "POST":
+		usuario = request.form['email']
+		senha_input = request.form['senha']
+		 
+	return render_template('login.html')
 
 
 if __name__ == "__main__":
