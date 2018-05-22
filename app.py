@@ -384,6 +384,22 @@ def historico():
 	}
 	return render_template("camera_historico.html", **templateData)
 
+@app.route('/cadastre-se')
+
+
+
+@app.route('/login')
+def login():
+
+	listaemail = ['pedropauloficial@hotmail.com']
+	listasenha = [1234]
+
+	templateData = {
+	"email": listaemail,
+	"senha": listasenha
+	}
+	return render_template('login.html', **templateData)
+
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=5004, debug=True)

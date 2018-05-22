@@ -9058,3 +9058,154 @@ button.bg-dark:focus {
     text-align: center !important;
   }
 }
+
+
+.botao4 {
+  background-color:#ffffff;
+  border:6px solid #000000;
+  display:inline-block;
+  cursor:pointer;
+  color:#080008;
+  font-family:Times New Roman;
+  font-size:28px;
+  position: absolute;
+  margin-top: 480px;
+  margin-left: 300px;
+  font-weight:bold;
+  font-style:italic;
+  padding:15px 33px;
+  text-decoration:none;
+  text-shadow:-2px 5px 12px #000000;
+}
+.botao4:hover {
+  background-color:#b3b1b3;
+}
+.botao4:active {
+  position:relative;
+  top:1px;
+}
+
+
+
+
+
+.botao3 {
+  background-color:#ffffff;
+  border:6px solid #000000;
+  display:inline-block;
+  cursor:pointer;
+  color:#080008;
+  font-family:Times New Roman;
+  font-size:28px;
+  font-weight:bold;
+  font-style:italic;
+  position: absolute;
+  margin-left: 1000px;
+  margin-top: 480px;
+  padding:15px 33px;
+  text-decoration:none;
+  text-shadow:-2px 5px 12px #000000;
+}
+.botao3:hover {
+  background-color:#b3b1b3;
+}
+.botao3:active {
+  position:relative;
+  top:1px;
+}
+
+* {box-sizing: border-box}
+
+/* Add padding to containers */
+.container {
+  padding: 16px;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for the submit/register button */
+.registerbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.registerbtn:hover {
+  opacity:1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+
+.botao5 {
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c2c2c2), color-stop(1, #ffffff));
+  background:-moz-linear-gradient(top, #c2c2c2 5%, #ffffff 100%);
+  background:-webkit-linear-gradient(top, #c2c2c2 5%, #ffffff 100%);
+  background:-o-linear-gradient(top, #c2c2c2 5%, #ffffff 100%);
+  background:-ms-linear-gradient(top, #c2c2c2 5%, #ffffff 100%);
+  background:linear-gradient(to bottom, #c2c2c2 5%, #ffffff 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c2c2c2', endColorstr='#ffffff',GradientType=0);
+  background-color:#c2c2c2;
+  border:2px solid #000000;
+  display:inline-block;
+  cursor:pointer;
+  color:#000000;
+  font-family:Times New Roman;
+  font-size:28px;
+  font-weight:bold;
+  font-style:italic;
+  padding:11px 76px;
+  text-decoration:none;
+  text-shadow:0px 1px 7px #010500;
+}
+.botao5:hover {
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #c2c2c2));
+  background:-moz-linear-gradient(top, #ffffff 5%, #c2c2c2 100%);
+  background:-webkit-linear-gradient(top, #ffffff 5%, #c2c2c2 100%);
+  background:-o-linear-gradient(top, #ffffff 5%, #c2c2c2 100%);
+  background:-ms-linear-gradient(top, #ffffff 5%, #c2c2c2 100%);
+  background:linear-gradient(to bottom, #ffffff 5%, #c2c2c2 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#c2c2c2',GradientType=0);
+  background-color:#ffffff;
+}
+.botao5:active {
+  position:relative;
+  top:1px;
+}
+
+.email{
+  padding: 1px 50px 0px 25px 25px;
+}
