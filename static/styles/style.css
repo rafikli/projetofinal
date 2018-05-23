@@ -1,6 +1,20 @@
 img{
 	display: display: inline-block
 }
+
+.container {
+	position: relative;
+}
+
+.text-block {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	background-color: black;
+	color: white;
+	padding-left: 10px;
+	padding-right:10px;
+}
 	
 .button-ok{
  display: inline-block;

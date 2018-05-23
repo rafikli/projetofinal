@@ -4,6 +4,18 @@ import time
 from picamera import PiCamera
 import datetime
 import json
+from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
+from email.mime.text import MIMEText
+import smtplib
+
+msg = MIMEMultipart()
+
+password = 'pihomedsoft'
+msg['From'] = 'pihomedigital@gmail.com'
+#msg['To'] = 'pedroluiz51@gmail.com'
+msg['To'] = 'rafael.libertini@gmail.com'
+msg['Subject'] = 'Intruso Detectado'
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -40,4 +52,14 @@ while True:
 			camera.capture("/home/pi/projetofinal/static/intrusos/{}.jpg".format(data))
 			print("Intruso detectado.Foto tirada {}".format(data))
 			camera.stop_preview()
+			
+			foto = open("/home/pi/projetofinal/static/intrusos/{}.jpg".format(data) , 'rb')
+			#msg.attach(MIMEText(''))
+			msg.attach(MIMEImage(foto.read()))
+			server = smtplib.SMTP('smtp.gmail.com: 587')
+			server.starttls()
+			server.login(msg['From'], password)
+			server.sendmail(msg['From'], msg['To'], msg.as_string())
+			server.quit()
+			
 			time.sleep(0.5)

@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CRUDE - Digital</title>
+    <title>PiHome - Segurança</title>
     <link href="/static/styles/style.css" type="text/css" rel="stylesheet">
     <link href="/static/styles/botao.css" type="text/css" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="#">CRUDE</a>
+        <a class="navbar-brand" href="/">PiHome</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -42,6 +42,7 @@
     </nav>
 <hr>
       <h2 class="text-center">SEGURANÇA</h2>
+<hr>
       <form action = "/camera/historico" method = "POST">
                   <label for = "username">Escolha a data:</label>
                   <select name = "dia_foto">
@@ -53,7 +54,9 @@
                   </form>
       <h3>{{ historico }}</h3>
       {% for nome in nomes_foto %}
-      <img src="/static/intrusos/{{ nome }}" alt = "Image Placeholder" width="49%">
+	<h5>Foto tirada:{{ nome }} </h5>
+      <img src="/static/intrusos/{{ nome }}" alt = "Image Placeholder" width="49%" title="teste">
+		<hr>
       {% endfor %}
     <script src="/static/styles/jquery-3.2.1.min.js"></script>
     <script src="/static/styles/popper.min.js"></script>

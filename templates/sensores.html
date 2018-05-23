@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CRUDE - Digital</title>
+    <title>PiHome - Clima</title>
     <link href="/static/styles/style.css" type="text/css" rel="stylesheet">
     <link href="/static/styles/botao.css" type="text/css" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="#">CRUDE</a>
+        <a class="navbar-brand" href="/">PiHome</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -45,7 +45,7 @@
 <hr>
 <hr>
 <div class = "row">
-	<div class = "col-md-6"><h3>Temperatura atual = {{ Temperatura }} °C</h3></div>
+	<div class = "col-md-6"><h3>Temperatura atual: {{ Temperatura }} °C</h3></div>
 	<div class = "col-md-6"><form action = "/sensores" method = "POST">
 								<label for = "username">Digite a temperatura a ser mantida [°C]:</label>
 								<input name = "temp_max" value = {{ temp_max }} size = "4" maxlength = "3">
@@ -64,7 +64,7 @@
 </div>
 
 <div class = "row">
-	<div class = "col-md-8"><h3>Umidade atual = {{ Umid }} %</h3></div>
+	<div class = "col-md-8"><h3>Umidade atual: {{ Umid }} %</h3></div>
 	
 </div>
 
@@ -85,45 +85,28 @@
       <div class="row">
         <div class="col-6 col-md-8 col-lg-7">
           <div class="row text-center">
-            <div class="col-sm-6 col-md-4 col-lg-4 col-12">
+            <div class="col-sm-6 col-md-4 col-lg-10 col-12">
               <ul class="list-unstyled">
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
+                <li > Pedro Costa: <a href='/'>pedrolcb@al.insper.edu.br</a> </li>
+                <li > Rafael Libertini: <a href='/'>rafael.libertini@gmail.com</a> </li>
+                <li > Pedro Paulo: <a href='/'>pedropauloficial@hotmail.com</a> </li>
+
               </ul>
             </div>
-            <div class="col-sm-6 col-md-4 col-lg-4 col-12">
-              <ul class="list-unstyled">
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-              </ul>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-4 col-12">
-              <ul class="list-unstyled">
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-                <li class="btn-link"> <a>Link anchor</a> </li>
-              </ul>
-            </div>
+
           </div>
         </div>
         <div class="col-md-4 col-lg-5 col-6">
           <address>
-            <strong>MyStoreFront, Inc.</strong><br>
-            Indian Treasure Link<br>
-            Quitman, WA, 99110-0219<br>
-            <abbr title="Phone">P:</abbr> (123) 456-7890
+            <strong>PI-HOME, Inc.</strong><br>
+            Vila Olímpia, 04546-043<br>
+            Brasil<br>
+            São Paulo-SP<br>
+            <abbr title="Phone">1234-5678</abbr>
           </address>
           <address>
-            <strong>Full Name</strong><br>
-            <a href="mailto:#">first.last@example.com</a>
+            <strong>E-MAIL PIHOME</strong><br>
+            <a href="mailto:#">pihomedigital@gmail.com</a>
           </address>
         </div>
       </div>
@@ -132,7 +115,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <p>Copyright © MyWebsite. All rights reserved.</p>
+            <p>Copyright © PI-HOME. All rights reserved.</p>
           </div>
         </div>
       </div>
