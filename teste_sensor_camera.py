@@ -13,8 +13,8 @@ msg = MIMEMultipart()
 
 password = 'pihomedsoft'
 msg['From'] = 'pihomedigital@gmail.com'
-#msg['To'] = 'pedroluiz51@gmail.com'
-msg['To'] = 'rafael.libertini@gmail.com'
+msg['To'] = 'pedroluiz51@gmail.com'
+#msg['To'] = 'rafael.libertini@gmail.com'
 msg['Subject'] = 'Intruso Detectado'
 
 GPIO.setmode(GPIO.BCM)
@@ -31,7 +31,7 @@ with open("historico.json","r") as arquivo:
 	else:
 		historico = json.loads(leitura)
 while True:
-	if GPIO.input(17) == GPIO.HIGH:
+	if GPIO.input(17) == GPIO.LOW:
 		i=GPIO.input(13)
 		if i == GPIO.LOW:                 
 			print("Sem intrusos")

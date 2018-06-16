@@ -51,22 +51,20 @@
             </ol>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img class="d-block w-100" src="/static/images/logo_pihome.jpg" alt="First slide">
+                <img class="d-block w-100" src="/static/images/logo_pihome1.jpg" alt="First slide">
                 <div class="carousel-caption d-none d-md-block">
                 </div>
               </div>
               <div class="carousel-item">
-                <img class="d-block w-100" src="/static/images/protoboard.jpg" alt="Second slide">
+                <img class="d-block w-100" src="/static/images/inicio1.png" alt="Second slide">
                 <div class="carousel-caption d-none d-md-block">
-                  <h5>Item 2 Heading</h5>
-                  <p>Item 2 Description</p>
+   
                 </div>
               </div>
               <div class="carousel-item">
-                <img class="d-block w-100" src="../Documents/images/1920x500.gif" alt="Third slide">
+                <img class="d-block w-100" src="/static/images/inicio2.png" alt="Third slide">
                 <div class="carousel-caption d-none d-md-block">
-                  <h5>Item 3 Heading</h5>
-                  <p>Item 3 Description</p>
+            
                 </div>
               </div>
             </div>
@@ -95,9 +93,9 @@
             <div class="card-body">
               <h5 class="card-title">Luz</h5>
       {% if pins[23].state == true %}
-      <a href="/23/off" class="button">Desligar</a>
+      <a href="/23/on" class="button2">Ligar</a>
       {% else %}
-      <a href="/23/on" class="button2">Ligar</a>  
+      <a href="/23/off" class="button">Desligar</a>  
       {% endif %}
             </div>
           </div>
@@ -109,22 +107,22 @@
               <h5 class="card-title">Luz quarto</h5>
 			
 	  {% if pins[24].state == true %}
-      <a href="/24/off" class="button">Desligar</a>
+      <a href="/24/on" class="button2">Ligar</a>
       {% else %}
-      <a href="/24/on" class="button2">Ligar</a>  
+      <a href="/24/off" class="button">Desligar</a>  
       {% endif %}
             </div>
           </div>
         </div>
-        <div class="col-md-3 pb-1 pb-md-0">
-          <div class="card">
-            <img class="card-img-top" src="/static/images/vent.jpg" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Ventilador</h5>
-	  {% if pins[12].state == true %}
-      <a href="/12/off" class="button">Desligar</a>
+         <div class="col-md-3 pb-1 pb-md-0">
+            <div class="card">
+              <img class="card-img-top" src="/static/images/cafeteira.png" alt="Card image cap">
+              <div class="card-body">
+               <h5 class="card-title">Cafeteira</h5>
+    {% if pins[22].state == true %}
+      <a href="/22/on" class="button2">Ativar</a>
       {% else %}
-      <a href="/12/on" class="button2">Ligar</a>  
+      <a href="/22/off" class="button">Desativar</a>  
       {% endif %}
             </div>
           </div>
@@ -135,66 +133,31 @@
               <div class="card-body">
                <h5 class="card-title">Segurança</h5>
     {% if pins[17].state == true %}
-      <a href="/17/off" class="button">Desativar</a>
+      <a href="/17/on" class="button2">Ativar</a>
       {% else %}
-      <a href="/17/on" class="button2">Ativar</a>  
+      <a href="/17/off" class="button">Desativar</a>  
+      {% endif %}
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="col-md-3 pb-1 pb-md-0">
+          <div class="card">
+            <img class="card-img-top" src="/static/images/vent.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Ventilador</h5>
+	  {% if pins[12].state == true %}
+      <a href="/12/on" class="button2">Ligar</a>
+      {% else %}
+      <a href="/12/off" class="button">Desligar</a>  
       {% endif %}
             </div>
           </div>
         </div>
       </div>
 
-<hr>
-    <h2 class="text-center">CONTATOS</h2>
-    <hr>
-      <div class="row">
-        <div class="col-6 col-md-8 col-lg-7">
-          <div class="row text-center">
-            <div class="col-sm-6 col-md-4 col-lg-4 col-12">
-              <ul class="list-unstyled">
-                <a>Pedro Luiz:<li class="btn-link"> <a>Link anchor</a> </li></a>
-              </ul>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-4 col-12">
-              <ul class="list-unstyled">
-                <a>Rafael:<li class="btn-link"> <a>rafael.libertini@gmail.com</a> </li></a>
-              </ul>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-4 col-12">
-              <ul class="list-unstyled">
-                <a>Pedro Paulo:<li class="btn-link"> <a>pedropauloficial@hotmail.com</a> </li></a>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-lg-5 col-6">
-          <address>
-            <strong>PI-HOME, Inc.</strong><br>
-            Vila Olímpia, 04546-043<br>
-            Brasil<br>
-            São Paulo-SP<br>
-            <abbr title="Phone">1234-5678</abbr>
-          </address>
-          <address>
-            <strong>E-MAIL PIHOME</strong><br>
-            <a href="mailto:#">pihomedigital@gmail.com</a>
-          </address>
-        </div>
-      </div>
-    </div>
-    <footer class="text-center">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <p>Copyright © PI-HOME. All rights reserved.</p>
-          </div>
-        </div>
-      </div>
-    </footer>
     <script src="/static/styles/jquery-3.2.1.min.js"></script>
     <script src="/static/styles/popper.min.js"></script>
     <script src="/static/styles/bootstrap-4.0.0.js"></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src="/static/styles/botao.js"></script>
   </body>
 </html>

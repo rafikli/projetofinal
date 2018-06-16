@@ -107,18 +107,18 @@ for data in datas1:
 #Definindo pinos led/refrigeracao
 
 pins = {
-   23 : {'name' : 'Luz Sala', 'state' : GPIO.LOW},
-   24 : {'name' : 'Porta', 'state' : GPIO.LOW},
-   25 : {'name' : 'Som', 'state' : GPIO.LOW},
-   26 : {'name' : 'Luz Quarto', 'state' : GPIO.LOW},
-   12 : {'name' : 'Ventilador', 'state' : GPIO.LOW},
-   17 : {'name' : 'Seguranca', 'state' : GPIO.LOW},
+   23 : {'name' : 'Luz Sala', 'state' : GPIO.HIGH},
+   24 : {'name' : 'Porta', 'state' : GPIO.HIGH},
+   25 : {'name' : 'Som', 'state' : GPIO.HIGH},
+   22 : {'name' : 'Cafeteira', 'state' : GPIO.HIGH},
+   12 : {'name' : 'Ventilador', 'state' : GPIO.HIGH},
+   17 : {'name' : 'Seguranca', 'state' : GPIO.HIGH},
    }
 
 
 for pin in pins:
    GPIO.setup(pin, GPIO.OUT)
-   GPIO.output(pin, GPIO.LOW)
+   GPIO.output(pin, GPIO.HIGH)
    
 global temp_max
 temp_max = 100
@@ -143,12 +143,10 @@ def action(changePin, action):
 
 	if action == "on":
 
-		GPIO.output(changePin, GPIO.HIGH)
-
-		message = "Turned " + deviceName + " on."
-	if action == "off":
 		GPIO.output(changePin, GPIO.LOW)
-		message = "Turned " + deviceName + " off."
+
+	if action == "off":
+		GPIO.output(changePin, GPIO.HIGH)
 
 	for pin in pins:
 		pins[pin]['state'] = GPIO.input(pin)
@@ -291,17 +289,18 @@ def plot_tempminmax():
 	
 	tudo = firebase.get('', None)
 	
-	for dia in datas1:
+	for dia in datas1[-7:]:
 		tmin.append(min(tudo[dia]['tempe']))
 		tmax.append(max(tudo[dia]['tempe']))
 			
 	fig = plt.figure()
 	fig.add_subplot(1,1,1)
-	plt.plot(range(len(datas)),tmax, 'ro--', label = 'Temperatura Maxima')
-	plt.plot(range(len(datas)),tmin, 'bo--', label = 'Temperatura Minima')
+	plt.title("Temperatura Minima e Maxima dos ultimos 7 dias coletados")
+	plt.plot(range(len(tmin)),tmax, 'ro--', label = 'Temperatura Maxima')
+	plt.plot(range(len(tmin)),tmin, 'bo--', label = 'Temperatura Minima')
 	plt.legend()
 	plt.grid(True)
-	plt.xticks(range(len(datas_crescentes)), datas_crescentes, rotation = 45)
+	plt.xticks(range(len(tmin)), datas_crescentes[-7:], rotation = 45)
 	
 		
 	plt.xlabel('Data')
@@ -332,6 +331,7 @@ def plot_umidminmax():
 			
 	fig = plt.figure()
 	fig.add_subplot(1,1,1)
+	plt.title("Umidade Minima e Maxima dos ultimos 7 dias coletados")
 	plt.plot(range(len(umin)),umax, 'ro--', label = 'Umidade Maxima')
 	plt.plot(range(len(umin)),umin, 'bo--', label = 'Umidade Minima')
 	plt.legend()

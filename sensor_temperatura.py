@@ -81,10 +81,10 @@ def principal():
 		else:
 			temp_max = le_tmax_firebase()
 			if temp >= temp_max:
-				GPIO.output(pino_vent, GPIO.HIGH)
+				GPIO.output(pino_vent, GPIO.LOW)
 				
 			else:
-				GPIO.output(pino_vent, GPIO.LOW)
+				GPIO.output(pino_vent, GPIO.HIGH)
 				
 			add_firebase(temp, umid)
 			time.sleep(frequencia)
